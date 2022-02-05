@@ -1,15 +1,16 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
+import {MyButton} from '../components';
 
 export const SinglePage = () => {
   const { id } = useParams();
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState({title: "", body: ""});
 
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
       .then(res => res.json())
       .then(data => setPost(data))
-  }, [id])
+  }, [id, setPost])
 
   return (
     <div>
@@ -17,7 +18,8 @@ export const SinglePage = () => {
         post && (
           <div className="post">
             <h3>{post.title}</h3>
-            <p>{ post.body}</p>
+            <p>{post.body}</p>
+            <MyButton><Link to={`/posts/${id}/edit`}>Редактировать пост</Link></MyButton>
           </div>
         )
       }
